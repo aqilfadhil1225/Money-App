@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Transaction, TransactionType } from "@/types";
-import { Trash, PencilSimple, CalendarBlank, Tag, Check, X } from "@phosphor-icons/react";
+import { Transaction } from "@/types";
 import { motion, AnimatePresence } from "motion/react";
+import { useRouter } from "next/navigation";
 
 interface ListProps {
   transactions: Transaction[];
@@ -11,151 +11,81 @@ interface ListProps {
   onUpdate: (id: string, data: any) => void;
 }
 
-export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps) => {
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState<any>(null);
+export const TransactionList = ({ transactions, onDelete }: ListProps) => {
+  const router = useRouter();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
       maximumFractionDigits: 0,
-    }).format(amount);
+    })
+      .format(amount)
+      .replace("Rp", "IDR");
   };
 
   const formatDate = (dateStr: string) => {
-    return new Intl.DateTimeFormat("id-ID", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }).format(new Date(dateStr));
-  };
-
-  const handleEdit = (transaction: Transaction) => {
-    setEditingId(transaction.id);
-    setEditData({ ...transaction });
-  };
-
-  const saveEdit = () => {
-    if (editingId && editData) {
-      onUpdate(editingId, editData);
-      setEditingId(null);
-      setEditData(null);
-    }
+    return new Date(dateStr).toISOString().split("T")[0];
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold tracking-tight text-zinc-950">Recent History</h3>
-        <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
-          {transactions.length} Transactions
-        </span>
-      </div>
+    <div className="w-full font-sans text-xs uppercase tracking-wider overflow-x-auto border border-zinc-900 bg-black/20">
+      <div className="min-w-[900px]">
+        {/* Header Row */}
+        <div className="grid grid-cols-12 gap-0 border-b border-zinc-800 p-0 font-display font-bold text-zinc-500 bg-black sticky top-0 z-10">
+          <div className="col-span-1 p-5 border-r border-zinc-900">TYPE</div>
+          <div className="col-span-2 p-5 border-r border-zinc-900 text-center font-mono">TIMESTAMP</div>
+          <div className="col-span-4 p-5 border-r border-zinc-900">DESCRIPTION</div>
+          <div className="col-span-2 p-5 border-r border-zinc-900">CATEGORY</div>
+          <div className="col-span-1 p-5 border-r border-zinc-900 text-right">AMT (IDR)</div>
+          <div className="col-span-2 p-5 text-right">ACTIONS</div>
+        </div>
 
-      <div className="space-y-3">
-        <AnimatePresence mode="popLayout">
-          {transactions.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="py-20 text-center border-2 border-dashed border-zinc-100 rounded-2xl"
-            >
-              <p className="text-zinc-400 font-medium">No transactions yet. Add your first record!</p>
-            </motion.div>
-          ) : (
-            transactions.map((transaction) => (
-              <motion.div
-                key={transaction.id}
-                layout
-                initial={{ opacity: 0, scale: 0.98, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98, x: -20 }}
-                className={`group bg-white border rounded-2xl p-4 flex items-center justify-between transition-all hover:shadow-sm ${
-                  editingId === transaction.id ? 'border-zinc-950 ring-1 ring-zinc-950' : 'border-zinc-200 hover:border-zinc-300'
-                }`}
-              >
-{editingId === transaction.id ? (
-                  <div className="flex-1 flex flex-col gap-2">
-                    <input 
-                      className="px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-sm font-bold"
-                      value={editData.title}
-                      onChange={e => setEditData({...editData, title: e.target.value})}
-                    />
-                    <input 
-                      className="w-full px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-sm font-mono font-bold"
-                      type="number"
-                      value={editData.amount}
-                      onChange={e => setEditData({...editData, amount: parseFloat(e.target.value)})}
-                    />
-                    <input 
-                      className="w-full px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-sm"
-                      type="date"
-                      value={editData.date?.split('T')[0] || ''}
-                      onChange={e => setEditData({...editData, date: e.target.value})}
-                    />
-                    <div className="flex gap-1 mt-1">
-                      <button onClick={saveEdit} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg">
-                        <Check size={18} weight="bold" />
-                      </button>
-                      <button onClick={() => setEditingId(null)} className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg">
-                        <X size={18} weight="bold" />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${
-                        transaction.type === 'income' 
-                          ? 'bg-emerald-50 text-emerald-600' 
-                          : 'bg-rose-50 text-rose-600'
-                      }`}>
-                        {transaction.type === 'income' ? '+' : '-'}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-zinc-950 leading-tight">{transaction.title}</h4>
-                        <div className="flex items-center gap-3 mt-1">
-                          <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                            <Tag size={12} />
-                            {transaction.category}
-                          </div>
-                          <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                            <CalendarBlank size={12} />
-                            {formatDate(transaction.date)}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-6">
-                      <div className={`text-lg font-bold tracking-tighter ${
-                        transaction.type === 'income' ? 'text-emerald-600' : 'text-zinc-950'
-                      }`}>
-                        {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
-                      </div>
-                      
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button 
-                          onClick={() => handleEdit(transaction)}
-                          className="p-2 text-zinc-400 hover:text-zinc-950 hover:bg-zinc-50 rounded-lg transition-all"
-                        >
-                          <PencilSimple size={18} weight="bold" />
-                        </button>
-                        <button 
-                          onClick={() => { if (window.confirm('Delete this transaction?')) onDelete(transaction.id); }}
-                          className="p-2 text-zinc-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
-                        >
-                          <Trash size={18} weight="bold" />
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                )}
+        <div className="divide-y divide-zinc-900">
+          <AnimatePresence mode="popLayout">
+            {transactions.length === 0 ? (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-32 text-center text-zinc-600 font-display tracking-[0.5em] text-sm">
+                [ NO RECORDS AVAILABLE ]
               </motion.div>
-            ))
-          )}
-        </AnimatePresence>
+            ) : (
+              transactions.map((transaction) => (
+                <motion.div
+                  key={transaction.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="grid grid-cols-12 gap-0 items-center group transition-colors hover:bg-zinc-900/30"
+                >
+                  <div className={`col-span-1 p-5 border-r border-zinc-900 font-bold font-mono ${transaction.type === "income" ? "text-white" : "text-zinc-500"}`}>
+                    [{transaction.type === "income" ? "INC" : "EXP"}]
+                  </div>
+                  <div className="col-span-2 p-5 border-r border-zinc-900 text-zinc-400 text-center font-mono">{formatDate(transaction.date)}</div>
+                  <div className="col-span-4 p-5 border-r border-zinc-900 text-white font-bold group-hover:text-zinc-200">{transaction.title}</div>
+                  <div className="col-span-2 p-5 border-r border-zinc-900 text-zinc-400">{transaction.category}</div>
+                  <div
+                    className={`col-span-1 p-5 border-r border-zinc-900 text-right font-bold font-mono ${transaction.type === "income" ? "text-white" : "text-zinc-400"} flex items-baseline justify-end gap-2`}
+                  >
+                    <span className="text-lg font-bold opacity-60 font-sans leading-none translate-y-[1px]">{transaction.type === "income" ? "+" : "-"}</span>
+                    <span>{formatCurrency(transaction.amount).replace("IDR", "").trim()}</span>
+                  </div>
+                  <div className="col-span-2 p-5 text-right flex justify-end gap-6 md:opacity-0 group-hover:opacity-100 transition-opacity font-mono">
+                    <button onClick={() => router.push(`/transactions/edit/${transaction.id}`)} className="text-zinc-500 hover:text-white transition-colors">
+                      [ EDIT ]
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (window.confirm("PERMANENT WIPE?")) onDelete(transaction.id);
+                      }}
+                      className="text-zinc-600 hover:text-white transition-colors font-bold"
+                    >
+                      [ WIPE ]
+                    </button>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

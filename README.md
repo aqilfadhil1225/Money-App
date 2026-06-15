@@ -1,6 +1,6 @@
 ## Getting Started
 
-AI SLOP Website wkwkwk 
+AI SLOP Website wkwkwk
 
 First, run the development server:
 
