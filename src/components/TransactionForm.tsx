@@ -42,15 +42,15 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
         <motion.button
           layoutId="form"
           onClick={() => setIsOpen(true)}
-          className="w-full py-4 border-2 border-dashed border-zinc-200 rounded-2xl flex items-center justify-center gap-2 text-zinc-400 hover:text-zinc-600 hover:border-zinc-300 transition-all font-medium"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-zinc-200 py-4 font-medium text-zinc-400 transition-all hover:border-zinc-300 hover:text-zinc-600 dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
         >
           <Plus size={20} weight="bold" />
           Add Transaction
         </motion.button>
       ) : (
-        <motion.div layoutId="form" className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm">
+        <motion.div layoutId="form" className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold tracking-tight">New Transaction</h3>
+            <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">New Transaction</h3>
             <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-zinc-600">
               <X size={20} weight="bold" />
             </button>
@@ -60,14 +60,14 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
               <button
                 type="button"
                 onClick={() => setType("expense")}
-                className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${type === "expense" ? "bg-white shadow-sm text-rose-600" : "text-zinc-500"}`}
+                className={`flex-1 rounded-md py-2 text-sm font-bold transition-all ${type === "expense" ? "bg-white text-rose-600 shadow-sm dark:bg-zinc-800" : "text-zinc-500"}`}
               >
                 Expense
               </button>
               <button
                 type="button"
                 onClick={() => setType("income")}
-                className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${type === "income" ? "bg-white shadow-sm text-emerald-600" : "text-zinc-500"}`}
+                className={`flex-1 rounded-md py-2 text-sm font-bold transition-all ${type === "income" ? "bg-white text-emerald-600 shadow-sm dark:bg-zinc-800" : "text-zinc-500"}`}
               >
                 Income
               </button>
@@ -80,7 +80,7 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
                 placeholder="What did you buy/earn?"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zinc-950/10 transition-all text-zinc-950"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:placeholder:text-zinc-600"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -91,7 +91,7 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
                   placeholder="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zinc-950/10 transition-all text-zinc-950 font-mono"
+                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 font-mono text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:placeholder:text-zinc-600"
                 />
               </div>
               <div className="space-y-1">
@@ -99,7 +99,7 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zinc-950/10 transition-all text-zinc-950 appearance-none"
+                  className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
                 >
                   <option>Umum</option>
                   <option>Makan</option>
@@ -116,12 +116,12 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-zinc-950/10 transition-all text-zinc-950"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
               />
             </div>
             <button
               type="submit"
-              className="w-full py-4 bg-zinc-950 text-white rounded-xl font-bold mt-4 hover:bg-zinc-800 transition-all active:scale-[0.98]"
+              className="mt-4 w-full rounded-xl bg-zinc-950 py-4 font-bold text-white transition-all hover:bg-zinc-800 active:scale-[0.98] dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
             >
               Add {type === "income" ? "Income" : "Expense"}
             </button>
