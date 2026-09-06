@@ -47,7 +47,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold tracking-tight text-zinc-950">Recent History</h3>
+        <h3 className="text-xl font-bold tracking-tight text-zinc-950 dark:text-white">Recent History</h3>
         <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
           {transactions.length} Transactions
         </span>
@@ -59,7 +59,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="py-20 text-center border-2 border-dashed border-zinc-100 rounded-2xl"
+              className="rounded-2xl border-2 border-dashed border-zinc-100 py-20 text-center dark:border-zinc-800"
             >
               <p className="text-zinc-400 font-medium">No transactions yet. Add your first record!</p>
             </motion.div>
@@ -71,8 +71,8 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, x: -20 }}
-                className={`group bg-white border rounded-2xl p-4 flex items-center justify-between transition-all hover:shadow-sm ${
-                  editingId === transaction.id ? 'border-zinc-950 ring-1 ring-zinc-950' : 'border-zinc-200 hover:border-zinc-300'
+                className={`group flex items-center justify-between rounded-2xl border bg-white p-4 transition-all hover:shadow-sm dark:bg-zinc-900 ${
+                  editingId === transaction.id ? 'border-zinc-950 ring-1 ring-zinc-950 dark:border-white dark:ring-white' : 'border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700'
                 }`}
               >
 {editingId === transaction.id ? (
@@ -114,7 +114,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                         {transaction.type === 'income' ? '+' : '-'}
                       </div>
                       <div>
-                        <h4 className="font-bold text-zinc-950 leading-tight">{transaction.title}</h4>
+                        <h4 className="font-bold leading-tight text-zinc-950 dark:text-white">{transaction.title}</h4>
                         <div className="flex items-center gap-3 mt-1">
                           <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
                             <Tag size={12} />
@@ -130,7 +130,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
 
                     <div className="flex items-center gap-6">
                       <div className={`text-lg font-bold tracking-tighter ${
-                        transaction.type === 'income' ? 'text-emerald-600' : 'text-zinc-950'
+                        transaction.type === 'income' ? 'text-emerald-600' : 'text-zinc-950 dark:text-white'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
                       </div>
@@ -138,7 +138,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => handleEdit(transaction)}
-                          className="p-2 text-zinc-400 hover:text-zinc-950 hover:bg-zinc-50 rounded-lg transition-all"
+                          className="rounded-lg p-2 text-zinc-400 transition-all hover:bg-zinc-50 hover:text-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <PencilSimple size={18} weight="bold" />
                         </button>
