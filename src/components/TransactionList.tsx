@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Transaction, TransactionFormData, TransactionType } from "@/types";
-import { Trash, PencilSimple, CalendarBlank, Tag, Check, X, MagnifyingGlass, Funnel } from "@phosphor-icons/react";
+import { Trash, PencilSimple, CalendarBlank, Tag, Check, X, MagnifyingGlass, Funnel, CaretDown } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface ListProps {
@@ -93,38 +93,51 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
           />
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <label className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 dark:border-zinc-700 dark:bg-zinc-950">
+          <label className="relative flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-9 dark:border-zinc-700 dark:bg-zinc-950">
             <Funnel size={16} className="shrink-0 text-zinc-400" />
             <select
               value={typeFilter}
               onChange={(event) => setTypeFilter(event.target.value as "all" | TransactionType)}
               aria-label="Filter by transaction type"
-              className="w-full bg-transparent py-3 text-sm text-zinc-950 outline-none dark:text-white"
+              className="w-full appearance-none bg-transparent py-3 text-sm text-zinc-950 outline-none dark:text-white"
             >
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="all">All types</option>
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="income">Income</option>
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="expense">Expense</option>
             </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
+              <CaretDown size={14} weight="bold" />
+            </span>
           </label>
-          <select
-            value={categoryFilter}
-            onChange={(event) => setCategoryFilter(event.target.value)}
-            aria-label="Filter by category"
-            className="rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-          >
-            <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="all">All categories</option>
-            {categories.map((category) => <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" key={category} value={category}>{category}</option>)}
-          </select>
-          <select
-            value={sortOrder}
-            onChange={(event) => setSortOrder(event.target.value as "newest" | "oldest" | "highest")}
-            aria-label="Sort transactions"
-            className="rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-          >
-            <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="newest">Newest first</option>
-            <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="oldest">Oldest first</option>
-            <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="highest">Highest amount</option>
-          </select>
+          <div className="relative">
+            <select
+              value={categoryFilter}
+              onChange={(event) => setCategoryFilter(event.target.value)}
+              aria-label="Filter by category"
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+            >
+              <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="all">All categories</option>
+              {categories.map((category) => <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" key={category} value={category}>{category}</option>)}
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
+              <CaretDown size={14} weight="bold" />
+            </span>
+          </div>
+          <div className="relative">
+            <select
+              value={sortOrder}
+              onChange={(event) => setSortOrder(event.target.value as "newest" | "oldest" | "highest")}
+              aria-label="Sort transactions"
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+            >
+              <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="newest">Newest first</option>
+              <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="oldest">Oldest first</option>
+              <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="highest">Highest amount</option>
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
+              <CaretDown size={14} weight="bold" />
+            </span>
+          </div>
         </div>
       </div>
 

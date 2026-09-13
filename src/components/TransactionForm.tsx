@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TransactionFormData, TransactionType } from "@/types";
-import { Plus, X } from "@phosphor-icons/react";
+import { CaretDown, Plus, X } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 
 interface FormProps {
@@ -96,18 +96,23 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] uppercase tracking-widest font-bold text-zinc-400 ml-1">Category</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-                >
-                  <option>Umum</option>
-                  <option>Makan</option>
-                  <option>Transport</option>
-                  <option>Hiburan</option>
-                  <option>Gaji</option>
-                  <option>Investasi</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 pr-10 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+                  >
+                    <option>Umum</option>
+                    <option>Makan</option>
+                    <option>Transport</option>
+                    <option>Hiburan</option>
+                    <option>Gaji</option>
+                    <option>Investasi</option>
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
+                    <CaretDown size={16} weight="bold" />
+                  </span>
+                </div>
               </div>
             </div>
             <div className="space-y-1">
