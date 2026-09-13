@@ -16,6 +16,8 @@ export default function Home() {
     deleteTransaction,
     updateTransaction,
     addBudget,
+    updateBudget,
+    deleteBudget,
     isLoaded,
   } = useTransactions();
 
@@ -52,18 +54,22 @@ export default function Home() {
         {/* Summary Cards */}
         <BalanceSummary transactions={transactions} />
 
-        <BudgetSummary
-          transactions={transactions}
-          budgets={budgets}
-          onAddBudget={addBudget}
-        />
-
         {/* Action & List Section */}
         <div className="grid grid-cols-1 gap-8">
           <section>
             <TransactionForm onAdd={addTransaction} />
           </section>
+        </div>
 
+        <BudgetSummary
+          transactions={transactions}
+          budgets={budgets}
+          onAddBudget={addBudget}
+          onUpdateBudget={updateBudget}
+          onDeleteBudget={deleteBudget}
+        />
+
+        <div className="grid grid-cols-1 gap-8">
           <section>
             <TransactionList 
               transactions={transactions} 

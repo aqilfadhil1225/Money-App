@@ -174,18 +174,18 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
 {editingId === transaction.id && editData ? (
                   <div className="flex-1 flex flex-col gap-2">
                     <input 
-                      className="px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-sm font-bold"
+                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
                       value={editData.title}
                       onChange={e => setEditData({...editData, title: e.target.value})}
                     />
                     <input 
-                      className="w-full px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-sm font-mono font-bold"
+                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm font-mono font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
                       type="number"
                       value={editData.amount}
                       onChange={e => setEditData({...editData, amount: parseFloat(e.target.value)})}
                     />
                     <input 
-                      className="w-full px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-sm"
+                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
                       type="date"
                       value={editData.date?.split('T')[0] || ''}
                       onChange={e => setEditData({...editData, date: e.target.value})}
@@ -231,16 +231,16 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                         {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
                       </div>
                       
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1">
                         <button 
                           onClick={() => handleEdit(transaction)}
-                          className="rounded-lg p-2 text-zinc-400 transition-all hover:bg-zinc-50 hover:text-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-white"
+                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <PencilSimple size={18} weight="bold" />
                         </button>
                         <button 
                           onClick={() => { if (window.confirm('Delete this transaction?')) onDelete(transaction.id); }}
-                          className="p-2 text-zinc-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-rose-50 hover:text-rose-600 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-rose-400"
                         >
                           <Trash size={18} weight="bold" />
                         </button>
