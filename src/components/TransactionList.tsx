@@ -231,16 +231,16 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                         {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
                       </div>
                       
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1">
                         <button 
                           onClick={() => handleEdit(transaction)}
-                          className="rounded-lg p-2 text-zinc-400 transition-all hover:bg-zinc-50 hover:text-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-white"
+                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <PencilSimple size={18} weight="bold" />
                         </button>
                         <button 
                           onClick={() => { if (window.confirm('Delete this transaction?')) onDelete(transaction.id); }}
-                          className="p-2 text-zinc-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-rose-50 hover:text-rose-600 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-rose-400"
                         >
                           <Trash size={18} weight="bold" />
                         </button>
