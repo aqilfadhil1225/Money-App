@@ -54,6 +54,13 @@ export default function Home() {
         {/* Summary Cards */}
         <BalanceSummary transactions={transactions} />
 
+        {/* Action & List Section */}
+        <div className="grid grid-cols-1 gap-8">
+          <section>
+            <TransactionForm onAdd={addTransaction} />
+          </section>
+        </div>
+
         <BudgetSummary
           transactions={transactions}
           budgets={budgets}
@@ -62,12 +69,7 @@ export default function Home() {
           onDeleteBudget={deleteBudget}
         />
 
-        {/* Action & List Section */}
         <div className="grid grid-cols-1 gap-8">
-          <section>
-            <TransactionForm onAdd={addTransaction} />
-          </section>
-
           <section>
             <TransactionList 
               transactions={transactions} 
