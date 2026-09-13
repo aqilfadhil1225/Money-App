@@ -16,6 +16,8 @@ export default function Home() {
     deleteTransaction,
     updateTransaction,
     addBudget,
+    updateBudget,
+    deleteBudget,
     isLoaded,
   } = useTransactions();
 
@@ -56,6 +58,8 @@ export default function Home() {
           transactions={transactions}
           budgets={budgets}
           onAddBudget={addBudget}
+          onUpdateBudget={updateBudget}
+          onDeleteBudget={deleteBudget}
         />
 
         {/* Action & List Section */}

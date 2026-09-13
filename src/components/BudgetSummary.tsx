@@ -2,22 +2,28 @@
 
 import { useMemo, useState } from "react";
 import { Budget, Transaction } from "@/types";
-import { Plus, Wallet, WarningCircle, CheckCircle } from "@phosphor-icons/react";
+import { Plus, WarningCircle, CheckCircle, PencilSimple, Trash, X } from "@phosphor-icons/react";
 
 interface BudgetSummaryProps {
   transactions: Transaction[];
   budgets: Budget[];
   onAddBudget: (data: { category: string; limit: number; month: string }) => void;
+  onUpdateBudget: (id: string, data: { category: string; limit: number; month: string }) => void;
+  onDeleteBudget: (id: string) => void;
 }
 
 const monthKey = () => new Date().toISOString().slice(0, 7);
 
 const categoryOptions = ["Umum", "Makan", "Transport", "Hiburan", "Tagihan", "Belanja", "Investasi"]; 
 
-export const BudgetSummary = ({ transactions, budgets, onAddBudget }: BudgetSummaryProps) => {
+export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudget, onDeleteBudget }: BudgetSummaryProps) => {
   const [category, setCategory] = useState("Makan");
   const [limit, setLimit] = useState(500000);
   const [month, setMonth] = useState(monthKey());
+  const [editingBudgetId, setEditingBudgetId] = useState<string | null>(null);
+  const [editingCategory, setEditingCategory] = useState("Makan");
+  const [editingLimit, setEditingLimit] = useState(500000);
+  const [editingMonth, setEditingMonth] = useState(monthKey());
 
   const currentMonth = monthKey();
 
@@ -55,6 +61,26 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget }: BudgetSumm
     if (!category || !limit || limit <= 0) return;
 
     onAddBudget({ category, limit, month: month || currentMonth });
+  };
+
+  const startEditing = (budget: Budget) => {
+    setEditingBudgetId(budget.id);
+    setEditingCategory(budget.category);
+    setEditingLimit(budget.limit);
+    setEditingMonth(budget.month);
+  };
+
+  const saveEdit = () => {
+    if (!editingBudgetId) return;
+    if (!editingCategory || !editingLimit || editingLimit <= 0) return;
+
+    onUpdateBudget(editingBudgetId, {
+      category: editingCategory,
+      limit: editingLimit,
+      month: editingMonth,
+    });
+
+    setEditingBudgetId(null);
   };
 
   const formatCurrency = (amount: number) =>
@@ -130,47 +156,115 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget }: BudgetSumm
             const isNearLimit = budget.remaining <= budget.limit * 0.2 && budget.remaining > 0;
             const isExceeded = budget.remaining < 0;
 
+            const isEditing = editingBudgetId === budget.id;
+
             return (
               <div key={budget.id} className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950">
-                <div className="mb-2 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-bold text-zinc-950 dark:text-white">{budget.category}</p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">{formatCurrency(budget.spent)} spent of {formatCurrency(budget.limit)}</p>
+                {isEditing ? (
+                  <div className="space-y-3">
+                    <div className="grid gap-2 md:grid-cols-3">
+                      <select
+                        value={editingCategory}
+                        onChange={(event) => setEditingCategory(event.target.value)}
+                        className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+                      >
+                        {categoryOptions.map((item) => (
+                          <option key={item} value={item}>{item}</option>
+                        ))}
+                      </select>
+
+                      <input
+                        type="number"
+                        value={editingLimit}
+                        min={0}
+                        onChange={(event) => setEditingLimit(Number(event.target.value))}
+                        className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+                      />
+
+                      <input
+                        type="month"
+                        value={editingMonth}
+                        onChange={(event) => setEditingMonth(event.target.value)}
+                        className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+                      />
+                    </div>
+
+                    <div className="flex justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={saveEdit}
+                        className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white hover:bg-emerald-500"
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingBudgetId(null)}
+                        className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-bold text-zinc-600 hover:bg-zinc-200 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
                   </div>
+                ) : (
+                  <>
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <div>
+                        <p className="font-bold text-zinc-950 dark:text-white">{budget.category}</p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{formatCurrency(budget.spent)} spent of {formatCurrency(budget.limit)}</p>
+                      </div>
 
-                  <div className="flex items-center gap-2">
-                    {isExceeded ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-rose-700 dark:bg-rose-950/40 dark:text-rose-300">
-                        <WarningCircle size={12} weight="fill" />
-                        Over
-                      </span>
-                    ) : isNearLimit ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-                        <WarningCircle size={12} weight="fill" />
-                        Near limit
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                        <CheckCircle size={12} weight="fill" />
-                        On track
-                      </span>
-                    )}
-                  </div>
-                </div>
+                      <div className="flex items-center gap-2">
+                        {isExceeded ? (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-rose-700 dark:bg-rose-950/40 dark:text-rose-300">
+                            <WarningCircle size={12} weight="fill" />
+                            Over
+                          </span>
+                        ) : isNearLimit ? (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                            <WarningCircle size={12} weight="fill" />
+                            Near limit
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                            <CheckCircle size={12} weight="fill" />
+                            On track
+                          </span>
+                        )}
 
-                <div className="mb-2 h-2.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
-                  <div
-                    className={`h-full rounded-full ${isExceeded ? "bg-rose-500" : isNearLimit ? "bg-amber-500" : "bg-emerald-500"}`}
-                    style={{ width: `${Math.min(budget.progress, 100)}%` }}
-                  />
-                </div>
+                        <button
+                          type="button"
+                          onClick={() => startEditing(budget)}
+                          className="rounded-lg p-2 text-zinc-500 transition hover:bg-zinc-200 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+                        >
+                          <PencilSimple size={16} weight="bold" />
+                        </button>
 
-                <div className="flex items-center justify-between text-sm font-medium text-zinc-600 dark:text-zinc-300">
-                  <span>Remaining</span>
-                  <span className={isExceeded ? "text-rose-600 dark:text-rose-300" : "text-zinc-950 dark:text-white"}>
-                    {formatCurrency(budget.remaining)}
-                  </span>
-                </div>
+                        <button
+                          type="button"
+                          onClick={() => onDeleteBudget(budget.id)}
+                          className="rounded-lg p-2 text-zinc-500 transition hover:bg-rose-100 hover:text-rose-600 dark:text-zinc-300 dark:hover:bg-rose-950/30 dark:hover:text-rose-300"
+                        >
+                          <Trash size={16} weight="bold" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mb-2 h-2.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+                      <div
+                        className={`h-full rounded-full ${isExceeded ? "bg-rose-500" : isNearLimit ? "bg-amber-500" : "bg-emerald-500"}`}
+                        style={{ width: `${Math.min(budget.progress, 100)}%` }}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm font-medium text-zinc-600 dark:text-zinc-300">
+                      <span>Remaining</span>
+                      <span className={isExceeded ? "text-rose-600 dark:text-rose-300" : "text-zinc-950 dark:text-white"}>
+                        {formatCurrency(budget.remaining)}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             );
           })
