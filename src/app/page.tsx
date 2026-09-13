@@ -2,13 +2,22 @@
 
 import { useTransactions } from "@/hooks/useTransactions";
 import { BalanceSummary } from "@/components/BalanceSummary";
+import { BudgetSummary } from "@/components/BudgetSummary";
 import { TransactionForm } from "@/components/TransactionForm";
 import { TransactionList } from "@/components/TransactionList";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Sparkle } from "@phosphor-icons/react";
 
 export default function Home() {
-  const { transactions, addTransaction, deleteTransaction, updateTransaction, isLoaded } = useTransactions();
+  const {
+    transactions,
+    budgets,
+    addTransaction,
+    deleteTransaction,
+    updateTransaction,
+    addBudget,
+    isLoaded,
+  } = useTransactions();
 
   if (!isLoaded) {
     return (
@@ -42,6 +51,12 @@ export default function Home() {
 
         {/* Summary Cards */}
         <BalanceSummary transactions={transactions} />
+
+        <BudgetSummary
+          transactions={transactions}
+          budgets={budgets}
+          onAddBudget={addBudget}
+        />
 
         {/* Action & List Section */}
         <div className="grid grid-cols-1 gap-8">
