@@ -139,9 +139,9 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudg
 
         <button
           type="submit"
-          className="flex items-center justify-center gap-2 rounded-xl bg-zinc-950 px-4 py-2.5 font-bold text-white transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
+          className="flex h-[46px] items-center justify-center gap-2 self-end rounded-xl bg-zinc-950 px-3 text-sm font-bold text-white transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
         >
-          <Plus size={18} weight="bold" />
+          <Plus size={16} weight="bold" />
           Add
         </button>
       </form>
