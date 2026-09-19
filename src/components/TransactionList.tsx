@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import { jsPDF } from "jspdf";
 import { Transaction, TransactionFormData, TransactionType } from "@/types";
-import { Trash, PencilSimple, CalendarBlank, Tag, Check, X, MagnifyingGlass, Funnel, CaretDown } from "@phosphor-icons/react";
+import { Trash, PencilSimple, CalendarBlank, Tag, Check, X, MagnifyingGlass, Funnel, CaretDown, DownloadSimple } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface ListProps {
@@ -35,6 +36,123 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
     }).format(new Date(dateStr));
   };
 
+  const handleExportPdf = () => {
+    if (filteredTransactions.length === 0) return;
+
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 40;
+    const cardWidth = (pageWidth - margin * 2 - 16) / 3;
+
+    const totalIncome = filteredTransactions
+      .filter((transaction) => transaction.type === "income")
+      .reduce((sum, transaction) => sum + transaction.amount, 0);
+
+    const totalExpense = filteredTransactions
+      .filter((transaction) => transaction.type === "expense")
+      .reduce((sum, transaction) => sum + transaction.amount, 0);
+
+    const balance = totalIncome - totalExpense;
+
+    const drawSummaryCard = (x: number, y: number, label: string, value: string, color: [number, number, number], accent: [number, number, number]) => {
+      doc.setFillColor(250, 250, 251);
+      doc.setDrawColor(...accent);
+      doc.setLineWidth(1);
+      doc.roundedRect(x, y, cardWidth, 72, 8, 8, 'FD');
+
+      doc.setTextColor(...accent);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.text(label.toUpperCase(), x + 14, y + 22);
+
+      doc.setTextColor(...color);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(15);
+      doc.text(value, x + 14, y + 48, { maxWidth: cardWidth - 28 });
+    };
+
+    doc.setFillColor(15, 23, 42);
+    doc.rect(0, 0, pageWidth, 90, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("Money Tracker Report", margin, 34);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(
+      `Generated: ${new Date().toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })}`,
+      margin,
+      58
+    );
+
+    doc.text(`Transactions: ${filteredTransactions.length}`, pageWidth - margin, 58, { align: "right" });
+
+    drawSummaryCard(margin, 110, "Income", formatCurrency(totalIncome), [0, 122, 85], [22, 163, 74]);
+    drawSummaryCard(margin + cardWidth + 8, 110, "Expense", formatCurrency(totalExpense), [82, 82, 92], [113, 113, 122]);
+    drawSummaryCard(margin + (cardWidth + 8) * 2, 110, "Net", formatCurrency(balance), [15, 23, 42], [24, 24, 27]);
+
+    let y = 210;
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Transaction Details", margin, y);
+
+    y += 18;
+    doc.setFillColor(24, 24, 27);
+    doc.rect(margin, y, pageWidth - margin * 2, 24, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text("No", margin + 12, y + 15);
+    doc.text("Title", margin + 42, y + 15);
+    doc.text("Category", margin + 194, y + 15);
+    doc.text("Date", margin + 310, y + 15);
+    doc.text("Amount", pageWidth - margin - 72, y + 15, { align: "right" });
+
+    y += 24;
+    doc.setTextColor(0, 0, 0);
+    doc.setDrawColor(225, 228, 232);
+    doc.setLineWidth(1);
+
+    filteredTransactions.forEach((transaction, index) => {
+      if (y > pageHeight - 60) {
+        doc.addPage();
+        y = 52;
+      }
+
+      const rowColor: [number, number, number] = index % 2 === 0 ? [255, 255, 255] : [248, 250, 252];
+      doc.setFillColor(rowColor[0], rowColor[1], rowColor[2]);
+      doc.rect(margin, y, pageWidth - margin * 2, 34, "F");
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.text(String(index + 1), margin + 12, y + 20);
+      doc.text(transaction.title, margin + 42, y + 20, { maxWidth: 120 });
+      doc.text(transaction.category, margin + 194, y + 20, { maxWidth: 90 });
+      doc.text(formatDate(transaction.date), margin + 310, y + 20);
+
+      const amountText = `${transaction.type === "income" ? "+" : "-"}${formatCurrency(transaction.amount)}`;
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(transaction.type === "income" ? 34 : 0, transaction.type === "income" ? 197 : 0, transaction.type === "income" ? 94 : 0);
+      doc.text(amountText, pageWidth - margin - 4, y + 20, { align: "right" });
+      doc.setTextColor(0, 0, 0);
+
+      doc.setDrawColor(229, 231, 235);
+      doc.line(margin, y + 34, pageWidth - margin, y + 34);
+      y += 34;
+    });
+
+    doc.save("money-tracker-report.pdf");
+  };
+
   const handleEdit = (transaction: Transaction) => {
     setEditingId(transaction.id);
     setEditData({ ...transaction });
@@ -48,36 +166,41 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
     }
   };
 
-  const categories = useMemo(
-    () => Array.from(new Set(transactions.map((transaction) => transaction.category))).sort(),
-    [transactions]
-  );
+  const categories = Array.from(new Set(transactions.map((transaction) => transaction.category))).sort();
 
-  const filteredTransactions = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-
-    return transactions
-      .filter((transaction) => {
-        const matchesSearch = transaction.title.toLowerCase().includes(normalizedQuery);
-        const matchesType = typeFilter === "all" || transaction.type === typeFilter;
-        const matchesCategory = categoryFilter === "all" || transaction.category === categoryFilter;
-        return matchesSearch && matchesType && matchesCategory;
-      })
-      .sort((first, second) => {
-        if (sortOrder === "highest") return second.amount - first.amount;
-        const firstDate = new Date(first.date).getTime();
-        const secondDate = new Date(second.date).getTime();
-        return sortOrder === "newest" ? secondDate - firstDate : firstDate - secondDate;
-      });
-  }, [categoryFilter, searchQuery, sortOrder, transactions, typeFilter]);
+  const filteredTransactions = transactions
+    .filter((transaction) => {
+      const normalizedQuery = searchQuery.trim().toLowerCase();
+      const matchesSearch = transaction.title.toLowerCase().includes(normalizedQuery);
+      const matchesType = typeFilter === "all" || transaction.type === typeFilter;
+      const matchesCategory = categoryFilter === "all" || transaction.category === categoryFilter;
+      return matchesSearch && matchesType && matchesCategory;
+    })
+    .sort((first, second) => {
+      if (sortOrder === "highest") return second.amount - first.amount;
+      const firstDate = new Date(first.date).getTime();
+      const secondDate = new Date(second.date).getTime();
+      return sortOrder === "newest" ? secondDate - firstDate : firstDate - secondDate;
+    });
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
         <h3 className="text-xl font-bold tracking-tight text-zinc-950 dark:text-white">Recent History</h3>
-        <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
-          {filteredTransactions.length} of {transactions.length} Transactions
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+            {filteredTransactions.length} of {transactions.length} Transactions
+          </span>
+          <button
+            type="button"
+            onClick={handleExportPdf}
+            disabled={filteredTransactions.length === 0}
+            className="inline-flex items-center gap-2 rounded-xl bg-zinc-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200 dark:disabled:bg-zinc-700 dark:disabled:text-zinc-400"
+          >
+            <DownloadSimple size={16} />
+            Export PDF
+          </button>
+        </div>
       </div>
 
       <div className="mb-6 space-y-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
