@@ -216,13 +216,13 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
           />
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <label className="relative flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-9 dark:border-zinc-700 dark:bg-zinc-950">
+          <label className="relative flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-9 shadow-sm transition-all hover:border-zinc-300 focus-within:border-zinc-900 focus-within:ring-4 focus-within:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-600 dark:focus-within:border-white dark:focus-within:ring-white/10">
             <Funnel size={16} className="shrink-0 text-zinc-400" />
             <select
               value={typeFilter}
               onChange={(event) => setTypeFilter(event.target.value as "all" | TransactionType)}
               aria-label="Filter by transaction type"
-              className="w-full appearance-none bg-transparent py-3 text-sm text-zinc-950 outline-none dark:text-white"
+              className="w-full appearance-none bg-transparent py-3 text-sm font-medium text-zinc-950 outline-none dark:text-white"
             >
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="all">All types</option>
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="income">Income</option>
@@ -237,7 +237,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
               value={categoryFilter}
               onChange={(event) => setCategoryFilter(event.target.value)}
               aria-label="Filter by category"
-              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
             >
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="all">All categories</option>
               {categories.map((category) => <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" key={category} value={category}>{category}</option>)}
@@ -251,7 +251,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
               value={sortOrder}
               onChange={(event) => setSortOrder(event.target.value as "newest" | "oldest" | "highest")}
               aria-label="Sort transactions"
-              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
             >
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="newest">Newest first</option>
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="oldest">Oldest first</option>

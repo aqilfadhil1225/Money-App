@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Budget, Transaction } from "@/types";
-import { Plus, WarningCircle, CheckCircle, PencilSimple, Trash, X } from "@phosphor-icons/react";
+import { Plus, WarningCircle, CheckCircle, PencilSimple, Trash, X, CaretDown } from "@phosphor-icons/react";
 
 interface BudgetSummaryProps {
   transactions: Transaction[];
@@ -119,15 +119,20 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudg
       <form onSubmit={handleSubmit} className="mb-6 grid gap-3 md:grid-cols-[1.2fr_1fr_1fr_auto]">
         <div className="space-y-1">
           <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Category</label>
-          <select
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-950 outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-          >
-            {categoryOptions.map((item) => (
-              <option key={item} value={item}>{item}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
+            >
+              {categoryOptions.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
+              <CaretDown size={14} weight="bold" />
+            </span>
+          </div>
         </div>
 
         <div className="space-y-1">
@@ -177,15 +182,20 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudg
                 {isEditing ? (
                   <div className="space-y-3">
                     <div className="grid gap-2 md:grid-cols-3">
-                      <select
-                        value={editingCategory}
-                        onChange={(event) => setEditingCategory(event.target.value)}
-                        className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
-                      >
-                        {categoryOptions.map((item) => (
-                          <option key={item} value={item}>{item}</option>
-                        ))}
-                      </select>
+                      <div className="relative">
+                        <select
+                          value={editingCategory}
+                          onChange={(event) => setEditingCategory(event.target.value)}
+                          className="w-full appearance-none rounded-xl border border-zinc-200 bg-white px-3 py-2 pr-10 text-sm font-medium text-zinc-900 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
+                        >
+                          {categoryOptions.map((item) => (
+                            <option key={item} value={item}>{item}</option>
+                          ))}
+                        </select>
+                        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
+                          <CaretDown size={14} weight="bold" />
+                        </span>
+                      </div>
 
                       <input
                         type="number"

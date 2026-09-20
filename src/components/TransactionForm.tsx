@@ -17,6 +17,9 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
   const [category, setCategory] = useState("Umum");
   const [date, setDate] = useState("");
 
+  const selectClassName =
+    "w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 pr-10 text-sm font-medium text-zinc-900 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10";
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !amount || parseFloat(amount) <= 0 || !date) return;
@@ -100,14 +103,14 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 pr-10 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+                    className={selectClassName}
                   >
-                    <option>Umum</option>
-                    <option>Makan</option>
-                    <option>Transport</option>
-                    <option>Hiburan</option>
-                    <option>Gaji</option>
-                    <option>Investasi</option>
+                    <option value="Umum">Umum</option>
+                    <option value="Makan">Makan</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Hiburan">Hiburan</option>
+                    <option value="Gaji">Gaji</option>
+                    <option value="Investasi">Investasi</option>
                   </select>
                   <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-zinc-400">
                     <CaretDown size={16} weight="bold" />
