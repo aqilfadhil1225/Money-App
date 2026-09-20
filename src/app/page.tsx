@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import { BalanceSummary } from "@/components/BalanceSummary";
 import { BudgetSummary } from "@/components/BudgetSummary";
@@ -9,6 +10,20 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Sparkle } from "@phosphor-icons/react";
 
 export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [monthLabel, setMonthLabel] = useState("Memuat...");
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setIsMounted(true);
+      setMonthLabel(
+        new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })
+      );
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   const {
     transactions,
     budgets,
@@ -21,7 +36,7 @@ export default function Home() {
     isLoaded,
   } = useTransactions();
 
-  if (!isLoaded) {
+  if (!isLoaded || !isMounted) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-zinc-200 border-t-zinc-950 dark:border-zinc-800 dark:border-t-white" />
@@ -45,7 +60,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-4 text-right">
             <p className="hidden text-sm font-bold uppercase tracking-widest text-zinc-400 sm:block">
-              {new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
+              {monthLabel}
             </p>
             <ThemeToggle />
           </div>

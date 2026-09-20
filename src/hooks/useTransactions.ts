@@ -3,36 +3,49 @@
 import { useState, useEffect } from 'react';
 import { Budget, BudgetFormData, Transaction, TransactionFormData } from '../types';
 
+const readStorage = <T,>(key: string): T | null => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const value = window.localStorage.getItem(key);
+    return value ? (JSON.parse(value) as T) : null;
+  } catch {
+    return null;
+  }
+};
+
 export const useTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const savedTransactions = localStorage.getItem('money_transactions');
-    const savedBudgets = localStorage.getItem('money_budgets');
+    const frame = requestAnimationFrame(() => {
+      const savedTransactions = readStorage<Transaction[]>('money_transactions');
+      const savedBudgets = readStorage<Budget[]>('money_budgets');
 
-    if (savedTransactions) {
-      setTransactions(JSON.parse(savedTransactions));
-    }
+      if (savedTransactions) {
+        setTransactions(savedTransactions);
+      }
 
-    if (savedBudgets) {
-      setBudgets(JSON.parse(savedBudgets));
-    }
+      if (savedBudgets) {
+        setBudgets(savedBudgets);
+      }
 
-    setIsLoaded(true);
+      setIsLoaded(true);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('money_transactions', JSON.stringify(transactions));
-    }
+    if (!isLoaded) return;
+    window.localStorage.setItem('money_transactions', JSON.stringify(transactions));
   }, [transactions, isLoaded]);
 
   useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('money_budgets', JSON.stringify(budgets));
-    }
+    if (!isLoaded) return;
+    window.localStorage.setItem('money_budgets', JSON.stringify(budgets));
   }, [budgets, isLoaded]);
 
   const addTransaction = (data: TransactionFormData) => {

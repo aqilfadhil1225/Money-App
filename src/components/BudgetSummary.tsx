@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Budget, Transaction } from "@/types";
 import { Plus, WarningCircle, CheckCircle, PencilSimple, Trash, X } from "@phosphor-icons/react";
 
@@ -19,13 +19,25 @@ const categoryOptions = ["Umum", "Makan", "Transport", "Hiburan", "Tagihan", "Be
 export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudget, onDeleteBudget }: BudgetSummaryProps) => {
   const [category, setCategory] = useState("Makan");
   const [limit, setLimit] = useState(500000);
-  const [month, setMonth] = useState(monthKey());
+  const [month, setMonth] = useState("");
   const [editingBudgetId, setEditingBudgetId] = useState<string | null>(null);
   const [editingCategory, setEditingCategory] = useState("Makan");
   const [editingLimit, setEditingLimit] = useState(500000);
-  const [editingMonth, setEditingMonth] = useState(monthKey());
+  const [editingMonth, setEditingMonth] = useState("");
+  const [currentMonth, setCurrentMonth] = useState("");
+  const [isReady, setIsReady] = useState(false);
 
-  const currentMonth = monthKey();
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const today = monthKey();
+      setCurrentMonth(today);
+      setMonth((prev) => prev || today);
+      setEditingMonth((prev) => prev || today);
+      setIsReady(true);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   const budgetRows = useMemo(() => {
     const activeMonth = month || currentMonth;
@@ -98,7 +110,9 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudg
           <h3 className="text-xl font-bold tracking-tight text-zinc-950 dark:text-white">Spending plan</h3>
         </div>
         <div className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-          {new Date(month || currentMonth).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
+          {isReady && currentMonth
+            ? new Date(month || currentMonth).toLocaleDateString("id-ID", { month: "long", year: "numeric" })
+            : "Memuat..."}
         </div>
       </div>
 
