@@ -116,7 +116,7 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudg
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mb-6 grid gap-3 md:grid-cols-[1.2fr_1fr_1fr_auto]">
+      <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_auto]">
         <div className="space-y-1">
           <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Category</label>
           <div className="relative">

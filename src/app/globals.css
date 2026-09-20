@@ -12,10 +12,15 @@
   --foreground: #09090b;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
 html.dark {

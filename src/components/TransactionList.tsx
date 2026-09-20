@@ -185,17 +185,17 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h3 className="text-xl font-bold tracking-tight text-zinc-950 dark:text-white">Recent History</h3>
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+        <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 sm:text-xs">
             {filteredTransactions.length} of {transactions.length} Transactions
           </span>
           <button
             type="button"
             onClick={handleExportPdf}
             disabled={filteredTransactions.length === 0}
-            className="inline-flex items-center gap-2 rounded-xl bg-zinc-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200 dark:disabled:bg-zinc-700 dark:disabled:text-zinc-400"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-zinc-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200 dark:disabled:bg-zinc-700 dark:disabled:text-zinc-400"
           >
             <DownloadSimple size={16} />
             Export PDF
@@ -290,12 +290,12 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, x: -20 }}
-                className={`group flex items-center justify-between rounded-2xl border bg-white p-4 transition-all hover:shadow-sm dark:bg-zinc-900 ${
+                className={`group flex flex-col gap-3 rounded-2xl border bg-white p-4 transition-all hover:shadow-sm dark:bg-zinc-900 sm:flex-row sm:items-center sm:justify-between ${
                   editingId === transaction.id ? 'border-zinc-950 ring-1 ring-zinc-950 dark:border-white dark:ring-white' : 'border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700'
                 }`}
               >
 {editingId === transaction.id && editData ? (
-                  <div className="flex-1 flex flex-col gap-2">
+                  <div className="flex flex-1 flex-col gap-2">
                     <input 
                       className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
                       value={editData.title}
@@ -324,22 +324,22 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold sm:h-12 sm:w-12 ${
                         transaction.type === 'income' 
                           ? 'bg-emerald-50 text-emerald-600' 
                           : 'bg-rose-50 text-rose-600'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'}
                       </div>
-                      <div>
-                        <h4 className="font-bold leading-tight text-zinc-950 dark:text-white">{transaction.title}</h4>
-                        <div className="flex items-center gap-3 mt-1">
-                          <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
+                      <div className="min-w-0 flex-1">
+                        <h4 className="truncate text-base font-bold leading-tight text-zinc-950 dark:text-white">{transaction.title}</h4>
+                        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:text-[11px]">
                             <Tag size={12} />
                             {transaction.category}
                           </div>
-                          <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
+                          <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:text-[11px]">
                             <CalendarBlank size={12} />
                             {formatDate(transaction.date)}
                           </div>
@@ -347,8 +347,8 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-6">
-                      <div className={`text-lg font-bold tracking-tighter ${
+                    <div className="flex items-center justify-between gap-3 sm:gap-6">
+                      <div className={`text-base font-bold tracking-tighter sm:text-lg ${
                         transaction.type === 'income' ? 'text-emerald-600' : 'text-zinc-950 dark:text-white'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}

@@ -45,21 +45,21 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-4 py-12 font-sans text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
+    <main className="min-h-screen bg-zinc-50 px-3 py-8 font-sans text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl">
         {/* Header */}
-        <header className="mb-12 flex items-end justify-between">
+        <header className="mb-8 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="flex items-center gap-2 text-zinc-400 mb-1">
+            <div className="mb-1 flex items-center gap-2 text-zinc-400">
               <Sparkle size={16} weight="fill" />
-              <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Personal Finance</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Personal Finance</span>
             </div>
-            <h1 className="text-4xl font-bold tracking-tighter text-zinc-950 dark:text-white">
+            <h1 className="text-3xl font-bold tracking-tighter text-zinc-950 dark:text-white sm:text-4xl">
               Money Tracker
             </h1>
           </div>
-          <div className="flex items-center gap-4 text-right">
-            <p className="hidden text-sm font-bold uppercase tracking-widest text-zinc-400 sm:block">
+          <div className="flex items-center justify-between gap-3 text-right sm:justify-end">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 sm:text-sm">
               {monthLabel}
             </p>
             <ThemeToggle />

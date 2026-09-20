@@ -51,15 +51,15 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
           Add Transaction
         </motion.button>
       ) : (
-        <motion.div layoutId="form" className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="flex justify-between items-center mb-6">
+        <motion.div layoutId="form" className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
+          <div className="mb-6 flex items-center justify-between">
             <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">New Transaction</h3>
             <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-zinc-600">
               <X size={20} weight="bold" />
             </button>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex gap-2 p-1 bg-zinc-100 rounded-lg mb-4">
+            <div className="mb-4 flex gap-2 rounded-lg bg-zinc-100 p-1">
               <button
                 type="button"
                 onClick={() => setType("expense")}
@@ -86,9 +86,9 @@ export const TransactionForm = ({ onAdd }: FormProps) => {
                 className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-950 transition-all focus:outline-none focus:ring-2 focus:ring-zinc-950/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:placeholder:text-zinc-600"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-widest font-bold text-zinc-400 ml-1">Amount</label>
+                <label className="ml-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Amount</label>
                 <input
                   type="number"
                   placeholder="0"
