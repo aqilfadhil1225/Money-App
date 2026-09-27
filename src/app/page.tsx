@@ -161,8 +161,8 @@ export default function Home() {
           <div className="flex h-full flex-col">
             <div className="mb-8 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-zinc-950 text-white dark:bg-white dark:text-zinc-950">
-                  <Sparkle size={18} weight="fill" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-zinc-950 text-white shadow-lg shadow-zinc-900/20 dark:bg-white dark:text-zinc-950 dark:shadow-none">
+                  <Wallet size={18} weight="fill" />
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Finance</p>
