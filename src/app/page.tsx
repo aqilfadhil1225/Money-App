@@ -156,8 +156,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-100 text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-3 py-4 sm:px-5 lg:flex-row lg:px-6 lg:py-6">
-        <aside className="w-full rounded-[28px] border border-zinc-200 bg-white p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:flex-shrink-0">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-3 py-4 sm:px-5 lg:h-[calc(100vh-3rem)] lg:flex-row lg:items-start lg:px-6 lg:py-6">
+        <aside className="w-full rounded-[28px] border border-zinc-200 bg-white p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:flex-shrink-0 lg:self-start">
           <div className="flex h-full flex-col">
             <div className="mb-8 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -214,8 +214,9 @@ export default function Home() {
           </div>
         </aside>
 
-        <div className="flex-1 rounded-[28px] border border-zinc-200 bg-white p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 sm:p-6 lg:p-7">
-          <header className="mb-8 flex flex-col gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex-1 overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+          <div className="p-4 sm:p-6 lg:p-7">
+            <header className="mb-8 flex flex-col gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <div className="mb-2 flex items-center gap-2 text-zinc-400">
                 <Sparkle size={15} weight="fill" />
@@ -234,11 +235,12 @@ export default function Home() {
 
           <div className="space-y-8">{currentContent}</div>
 
-          <footer className="mt-12 border-t border-zinc-200 pt-8 text-center dark:border-zinc-800">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              Built with Taste & Discipline - 2026
-            </p>
-          </footer>
+            <footer className="mt-12 border-t border-zinc-200 pt-8 text-center dark:border-zinc-800">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                Built with Taste & Discipline - 2026
+              </p>
+            </footer>
+          </div>
         </div>
       </div>
     </main>
