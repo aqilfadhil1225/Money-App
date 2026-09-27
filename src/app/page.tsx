@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import { BalanceSummary } from "@/components/BalanceSummary";
 import { BudgetSummary } from "@/components/BudgetSummary";
+import { GoalSummary } from "../components/GoalSummary";
 import { TransactionForm } from "@/components/TransactionForm";
 import { TransactionList } from "@/components/TransactionList";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -27,12 +28,16 @@ export default function Home() {
   const {
     transactions,
     budgets,
+    goals,
     addTransaction,
     deleteTransaction,
     updateTransaction,
     addBudget,
     updateBudget,
     deleteBudget,
+    addGoal,
+    updateGoal,
+    deleteGoal,
     isLoaded,
   } = useTransactions();
 
@@ -82,6 +87,13 @@ export default function Home() {
           onAddBudget={addBudget}
           onUpdateBudget={updateBudget}
           onDeleteBudget={deleteBudget}
+        />
+
+        <GoalSummary
+          goals={goals}
+          onAddGoal={addGoal}
+          onUpdateGoal={updateGoal}
+          onDeleteGoal={deleteGoal}
         />
 
         <div className="grid grid-cols-1 gap-8">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Budget, BudgetFormData, Transaction, TransactionFormData } from '../types';
+import { Budget, BudgetFormData, Goal, GoalFormData, Transaction, TransactionFormData } from '../types';
 
 const readStorage = <T,>(key: string): T | null => {
   if (typeof window === 'undefined') return null;
@@ -17,12 +17,14 @@ const readStorage = <T,>(key: string): T | null => {
 export const useTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
       const savedTransactions = readStorage<Transaction[]>('money_transactions');
       const savedBudgets = readStorage<Budget[]>('money_budgets');
+      const savedGoals = readStorage<Goal[]>('money_goals');
 
       if (savedTransactions) {
         setTransactions(savedTransactions);
@@ -30,6 +32,10 @@ export const useTransactions = () => {
 
       if (savedBudgets) {
         setBudgets(savedBudgets);
+      }
+
+      if (savedGoals) {
+        setGoals(savedGoals);
       }
 
       setIsLoaded(true);
@@ -47,6 +53,11 @@ export const useTransactions = () => {
     if (!isLoaded) return;
     window.localStorage.setItem('money_budgets', JSON.stringify(budgets));
   }, [budgets, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    window.localStorage.setItem('money_goals', JSON.stringify(goals));
+  }, [goals, isLoaded]);
 
   const addTransaction = (data: TransactionFormData) => {
     const newTransaction: Transaction = {
@@ -89,15 +100,38 @@ export const useTransactions = () => {
     setBudgets((prev) => prev.filter((budget) => budget.id !== id));
   };
 
+  const addGoal = (data: GoalFormData) => {
+    const goal: Goal = {
+      ...data,
+      id: crypto.randomUUID(),
+    };
+
+    setGoals((prev) => [goal, ...prev]);
+  };
+
+  const updateGoal = (id: string, data: GoalFormData) => {
+    setGoals((prev) =>
+      prev.map((goal) => (goal.id === id ? { ...goal, ...data } : goal))
+    );
+  };
+
+  const deleteGoal = (id: string) => {
+    setGoals((prev) => prev.filter((goal) => goal.id !== id));
+  };
+
   return {
     transactions,
     budgets,
+    goals,
     addTransaction,
     updateTransaction,
     deleteTransaction,
     addBudget,
     updateBudget,
     deleteBudget,
+    addGoal,
+    updateGoal,
+    deleteGoal,
     isLoaded,
   };
 };

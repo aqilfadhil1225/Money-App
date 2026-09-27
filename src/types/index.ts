@@ -29,3 +29,18 @@ export interface BudgetFormData {
   limit: number;
   month: string;
 }
+
+export interface Goal {
+  id: string;
+  name: string;
+  target: number;
+  currentAmount: number;
+  deadline: string;
+}
+
+export interface GoalFormData {
+  name: string;
+  target: number;
+  currentAmount: number;
+  deadline: string;
+}
