@@ -44,3 +44,15 @@ export interface GoalFormData {
   currentAmount: number;
   deadline: string;
 }
+
+export interface AppData {
+  transactions: Transaction[];
+  budgets: Budget[];
+  goals: Goal[];
+}
+
+export interface BackupFile {
+  version: 1;
+  exportedAt: string;
+  data: AppData;
+}

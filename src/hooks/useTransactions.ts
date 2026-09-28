@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Budget, BudgetFormData, Goal, GoalFormData, Transaction, TransactionFormData } from '../types';
+import { AppData, Budget, BudgetFormData, Goal, GoalFormData, Transaction, TransactionFormData } from '../types';
 
 const readStorage = <T,>(key: string): T | null => {
   if (typeof window === 'undefined') return null;
@@ -119,6 +119,12 @@ export const useTransactions = () => {
     setGoals((prev) => prev.filter((goal) => goal.id !== id));
   };
 
+  const replaceData = (data: AppData) => {
+    setTransactions(data.transactions);
+    setBudgets(data.budgets);
+    setGoals(data.goals);
+  };
+
   return {
     transactions,
     budgets,
@@ -132,6 +138,7 @@ export const useTransactions = () => {
     addGoal,
     updateGoal,
     deleteGoal,
+    replaceData,
     isLoaded,
   };
 };

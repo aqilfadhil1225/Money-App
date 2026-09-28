@@ -8,6 +8,7 @@ import { GoalSummary } from "../components/GoalSummary";
 import { TransactionForm } from "@/components/TransactionForm";
 import { TransactionList } from "@/components/TransactionList";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { BackupRestore } from "@/components/BackupRestore";
 import {
   ArrowUpRight,
   Bank,
@@ -46,6 +47,7 @@ export default function Home() {
     addGoal,
     updateGoal,
     deleteGoal,
+    replaceData,
     isLoaded,
   } = useTransactions();
 
@@ -189,6 +191,13 @@ export default function Home() {
                 </button>
               ))}
             </nav>
+
+            <div className="mt-6">
+              <BackupRestore
+                data={{ transactions, budgets, goals }}
+                onRestore={replaceData}
+              />
+            </div>
 
             <div className="mt-auto rounded-2xl bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-700 p-4 text-white shadow-xl shadow-zinc-950/20 dark:from-zinc-800 dark:via-zinc-900 dark:to-zinc-700">
               <div className="mb-3 flex items-center gap-2 text-zinc-300">
