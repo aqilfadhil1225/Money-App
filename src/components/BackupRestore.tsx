@@ -62,7 +62,7 @@ const isAppData = (value: unknown): value is AppData => {
         item.currentAmount >= 0 &&
         typeof item.deadline === "string" &&
         (item.deadline === "" || isValidDate(item.deadline))
-    )
+      )
   );
 };
 

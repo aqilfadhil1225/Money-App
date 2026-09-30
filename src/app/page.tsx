@@ -10,7 +10,6 @@ import { TransactionList } from "@/components/TransactionList";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { BackupRestore } from "@/components/BackupRestore";
 import {
-  ArrowUpRight,
   Bank,
   ChartPieSlice,
   PiggyBank,
@@ -159,8 +158,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-zinc-100 text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-3 py-4 sm:px-5 lg:h-[calc(100vh-3rem)] lg:flex-row lg:items-start lg:px-6 lg:py-6">
-        <aside className="w-full rounded-lg border border-zinc-200 bg-white p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:flex-shrink-0 lg:self-start">
-          <div className="flex h-full flex-col">
+        <aside className="w-full rounded-lg border border-zinc-200 bg-white p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:flex-shrink-0 lg:self-start lg:overflow-y-auto">
+          <div className="flex min-h-full flex-col">
             <div className="mb-8 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-zinc-950 text-white shadow-lg shadow-zinc-900/20 dark:bg-white dark:text-zinc-950 dark:shadow-none">
@@ -192,34 +191,13 @@ export default function Home() {
               ))}
             </nav>
 
-            <div className="mt-6">
+            <div className="mt-auto pt-6">
               <BackupRestore
                 data={{ transactions, budgets, goals }}
                 onRestore={replaceData}
               />
             </div>
 
-            <div className="mt-auto rounded-2xl bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-700 p-4 text-white shadow-xl shadow-zinc-950/20 dark:from-zinc-800 dark:via-zinc-900 dark:to-zinc-700">
-              <div className="mb-3 flex items-center gap-2 text-zinc-300">
-                <ArrowUpRight size={16} weight="bold" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">This month</span>
-              </div>
-              <p className="text-2xl font-bold tracking-tight">
-                {new Intl.NumberFormat("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                  maximumFractionDigits: 0,
-                }).format(
-                  transactions
-                    .filter((transaction) => transaction.type === "income")
-                    .reduce((sum, transaction) => sum + transaction.amount, 0) -
-                    transactions
-                      .filter((transaction) => transaction.type === "expense")
-                      .reduce((sum, transaction) => sum + transaction.amount, 0)
-                )}
-              </p>
-              <p className="mt-2 text-xs text-zinc-300">Target tabungan aman, pengeluaran terkendali.</p>
-            </div>
           </div>
         </aside>
 

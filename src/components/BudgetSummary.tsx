@@ -14,8 +14,6 @@ interface BudgetSummaryProps {
 
 const monthKey = () => new Date().toISOString().slice(0, 7);
 
-const categoryOptions = ["Umum", "Makan", "Transport", "Hiburan", "Tagihan", "Belanja", "Investasi"]; 
-
 export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudget, onDeleteBudget }: BudgetSummaryProps) => {
   const [category, setCategory] = useState("Makan");
   const [limit, setLimit] = useState(500000);
@@ -26,6 +24,8 @@ export const BudgetSummary = ({ transactions, budgets, onAddBudget, onUpdateBudg
   const [editingMonth, setEditingMonth] = useState("");
   const [currentMonth, setCurrentMonth] = useState("");
   const [isReady, setIsReady] = useState(false);
+
+  const categoryOptions = ["Umum", "Makan", "Transport", "Hiburan", "Tagihan", "Belanja", "Investasi"];
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
