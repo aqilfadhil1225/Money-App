@@ -203,7 +203,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
         </div>
       </div>
 
-      <div className="mb-6 space-y-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="mb-6 space-y-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950">
         <div className="relative">
           <MagnifyingGlass size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
           <input
@@ -212,11 +212,11 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search transactions..."
             aria-label="Search transactions"
-            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 py-3 pl-10 pr-4 text-sm text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
+            className="w-full rounded-xl border border-zinc-200 bg-white py-3 pl-10 pr-4 text-sm text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus:border-white"
           />
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <label className="relative flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 pr-9 shadow-sm transition-all hover:border-zinc-300 focus-within:border-zinc-900 focus-within:ring-4 focus-within:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-600 dark:focus-within:border-white dark:focus-within:ring-white/10">
+          <label className="relative flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 pr-9 shadow-sm transition-all hover:border-zinc-300 focus-within:border-zinc-900 focus-within:ring-4 focus-within:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-600 dark:focus-within:border-white dark:focus-within:ring-white/10">
             <Funnel size={16} className="shrink-0 text-zinc-400" />
             <select
               value={typeFilter}
@@ -237,7 +237,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
               value={categoryFilter}
               onChange={(event) => setCategoryFilter(event.target.value)}
               aria-label="Filter by category"
-              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-white px-3 py-3 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
             >
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="all">All categories</option>
               {categories.map((category) => <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" key={category} value={category}>{category}</option>)}
@@ -251,7 +251,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
               value={sortOrder}
               onChange={(event) => setSortOrder(event.target.value as "newest" | "oldest" | "highest")}
               aria-label="Sort transactions"
-              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-white px-3 py-3 pr-10 text-sm font-medium text-zinc-950 shadow-sm transition-all hover:border-zinc-300 focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-950/5 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:hover:border-zinc-600 dark:focus:border-white dark:focus:ring-white/10"
             >
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="newest">Newest first</option>
               <option className="bg-white text-zinc-950 dark:bg-zinc-950 dark:text-white" value="oldest">Oldest first</option>
@@ -290,34 +290,34 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, x: -20 }}
-                className={`group flex flex-col gap-3 rounded-2xl border bg-white p-4 transition-all hover:shadow-sm dark:bg-zinc-900 sm:flex-row sm:items-center sm:justify-between ${
+                className={`group flex flex-col gap-3 rounded-2xl border bg-zinc-50 p-4 transition-all hover:shadow-sm dark:bg-zinc-950 sm:flex-row sm:items-center sm:justify-between ${
                   editingId === transaction.id ? 'border-zinc-950 ring-1 ring-zinc-950 dark:border-white dark:ring-white' : 'border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700'
                 }`}
               >
 {editingId === transaction.id && editData ? (
                   <div className="flex flex-1 flex-col gap-2">
                     <input 
-                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
+                      className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-1 text-sm font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus:border-white"
                       value={editData.title}
                       onChange={e => setEditData({...editData, title: e.target.value})}
                     />
                     <input 
-                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm font-mono font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
+                      className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-1 text-sm font-mono font-bold text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus:border-white"
                       type="number"
                       value={editData.amount}
                       onChange={e => setEditData({...editData, amount: parseFloat(e.target.value)})}
                     />
                     <input 
-                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1 text-sm text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white dark:focus:border-white"
+                      className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-1 text-sm text-zinc-950 outline-none transition focus:border-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus:border-white"
                       type="date"
                       value={editData.date?.split('T')[0] || ''}
                       onChange={e => setEditData({...editData, date: e.target.value})}
                     />
-                    <div className="flex gap-1 mt-1">
-                      <button onClick={saveEdit} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg">
+                    <div className="mt-1 flex gap-1">
+                      <button onClick={saveEdit} className="rounded-lg p-2 text-zinc-700 hover:bg-zinc-200 dark:text-zinc-200 dark:hover:bg-zinc-800">
                         <Check size={18} weight="bold" />
                       </button>
-                      <button onClick={() => setEditingId(null)} className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg">
+                      <button onClick={() => setEditingId(null)} className="rounded-lg p-2 text-zinc-700 hover:bg-zinc-200 dark:text-zinc-200 dark:hover:bg-zinc-800">
                         <X size={18} weight="bold" />
                       </button>
                     </div>
@@ -327,8 +327,8 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                     <div className="flex items-center gap-3 sm:gap-4">
                       <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold sm:h-12 sm:w-12 ${
                         transaction.type === 'income' 
-                          ? 'bg-emerald-50 text-emerald-600' 
-                          : 'bg-rose-50 text-rose-600'
+                          ? 'bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100' 
+                          : 'bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'}
                       </div>
@@ -349,7 +349,7 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
 
                     <div className="flex items-center justify-between gap-3 sm:gap-6">
                       <div className={`text-base font-bold tracking-tighter sm:text-lg ${
-                        transaction.type === 'income' ? 'text-emerald-600' : 'text-zinc-950 dark:text-white'
+                        transaction.type === 'income' ? 'text-zinc-950 dark:text-white' : 'text-zinc-700 dark:text-zinc-200'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
                       </div>
@@ -357,13 +357,13 @@ export const TransactionList = ({ transactions, onDelete, onUpdate }: ListProps)
                       <div className="flex items-center gap-1">
                         <button 
                           onClick={() => handleEdit(transaction)}
-                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-zinc-200 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <PencilSimple size={18} weight="bold" />
                         </button>
                         <button 
                           onClick={() => { if (window.confirm('Delete this transaction?')) onDelete(transaction.id); }}
-                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-rose-50 hover:text-rose-600 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-rose-400"
+                          className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-zinc-200 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
                         >
                           <Trash size={18} weight="bold" />
                         </button>
