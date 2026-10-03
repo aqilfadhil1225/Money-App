@@ -32,13 +32,13 @@ export const BalanceSummary = ({ transactions }: SummaryProps) => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="min-w-0 overflow-hidden rounded-2xl bg-zinc-950 p-4 text-white shadow-xl shadow-zinc-950/20 sm:col-span-2 sm:rounded-[28px] sm:p-6 xl:col-span-1"
+        className="@container min-w-0 overflow-hidden rounded-2xl bg-zinc-950 p-4 text-white shadow-xl shadow-zinc-950/20 sm:col-span-2 sm:rounded-[28px] sm:p-6 xl:col-span-1"
       >
         <div className="mb-2 flex items-center gap-3 opacity-60">
           <Wallet size={20} weight="bold" />
           <span className="text-xs font-bold uppercase tracking-widest">Total Balance</span>
         </div>
-        <div className="overflow-hidden text-[clamp(1rem,5vw,2.1rem)] font-bold leading-tight tracking-tighter whitespace-nowrap">
+        <div className="min-w-0 text-[clamp(1.375rem,12cqw,1.875rem)] font-bold leading-tight tracking-tight tabular-nums whitespace-nowrap">
           {formatCurrency(balance)}
         </div>
       </motion.div>
@@ -47,13 +47,13 @@ export const BalanceSummary = ({ transactions }: SummaryProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="min-w-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 sm:rounded-[28px] sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
+        className="@container min-w-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 sm:rounded-[28px] sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
       >
         <div className="mb-2 flex items-center gap-3 text-emerald-600">
           <ArrowUpRight size={20} weight="bold" />
           <span className="text-xs font-bold uppercase tracking-widest text-zinc-600 opacity-60 dark:text-zinc-300">Income</span>
         </div>
-        <div className="overflow-hidden text-[clamp(0.95rem,4vw,2.1rem)] font-bold leading-tight tracking-tighter whitespace-nowrap text-zinc-950 dark:text-white">
+        <div className="min-w-0 text-[clamp(1.375rem,12cqw,1.875rem)] font-bold leading-tight tracking-tight tabular-nums whitespace-nowrap text-zinc-950 dark:text-white">
           {formatCurrency(income)}
         </div>
       </motion.div>
@@ -62,13 +62,13 @@ export const BalanceSummary = ({ transactions }: SummaryProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="min-w-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 sm:rounded-[28px] sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
+        className="@container min-w-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 sm:rounded-[28px] sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
       >
         <div className="mb-2 flex items-center gap-3 text-rose-600">
           <ArrowDownLeft size={20} weight="bold" />
           <span className="text-xs font-bold uppercase tracking-widest text-zinc-600 opacity-60 dark:text-zinc-300">Expense</span>
         </div>
-        <div className="overflow-hidden text-[clamp(0.95rem,4vw,2.1rem)] font-bold leading-tight tracking-tighter whitespace-nowrap text-zinc-950 dark:text-white">
+        <div className="min-w-0 text-[clamp(1.375rem,12cqw,1.875rem)] font-bold leading-tight tracking-tight tabular-nums whitespace-nowrap text-zinc-950 dark:text-white">
           {formatCurrency(expense)}
         </div>
       </motion.div>
