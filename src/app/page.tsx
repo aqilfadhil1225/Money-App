@@ -156,11 +156,11 @@ export default function Home() {
   }[activeTab];
 
   return (
-    <main className="min-h-screen bg-zinc-100 text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-3 py-4 sm:px-5 lg:h-[calc(100vh-3rem)] lg:flex-row lg:items-start lg:px-6 lg:py-6">
-        <aside className="w-full rounded-lg border border-zinc-200 bg-white p-4 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:flex-shrink-0 lg:self-start lg:overflow-y-auto">
+    <main className="min-h-screen overflow-x-hidden bg-zinc-100 text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50">
+      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-3 px-3 py-3 sm:gap-6 sm:px-5 lg:h-[calc(100vh-3rem)] lg:min-h-0 lg:flex-row lg:items-start lg:px-6 lg:py-6">
+        <aside className="w-full rounded-2xl border border-zinc-200 bg-white p-3 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 sm:rounded-[28px] sm:p-4 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:flex-shrink-0 lg:self-start lg:overflow-y-auto">
           <div className="flex min-h-full flex-col">
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between sm:mb-8">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-zinc-950 text-white shadow-lg shadow-zinc-900/20 dark:bg-white dark:text-zinc-950 dark:shadow-none">
                   <Wallet size={18} weight="fill" />
@@ -173,13 +173,14 @@ export default function Home() {
               <ThemeToggle />
             </div>
 
-            <nav className="space-y-2">
+            <nav aria-label="Main navigation" className="grid grid-cols-4 gap-1 sm:gap-2 lg:grid-cols-1">
               {navItems.map(({ label, icon: Icon }) => (
                 <button
                   key={label}
                   type="button"
                   onClick={() => setActiveTab(label as typeof activeTab)}
-                  className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-semibold transition-all ${
+                  aria-current={activeTab === label ? "page" : undefined}
+                  className={`flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1.5 py-2 text-center text-[10px] font-semibold transition-all sm:flex-row sm:gap-3 sm:rounded-2xl sm:px-3 sm:py-3 sm:text-left sm:text-sm lg:justify-start ${
                     activeTab === label
                       ? "bg-zinc-950 text-white shadow-lg shadow-zinc-950/20 dark:bg-white dark:text-zinc-950"
                       : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
@@ -191,7 +192,7 @@ export default function Home() {
               ))}
             </nav>
 
-            <div className="mt-auto pt-6">
+            <div className="mt-3 pt-0 sm:mt-auto sm:pt-6">
               <BackupRestore
                 data={{ transactions, budgets, goals }}
                 onRestore={replaceData}
@@ -201,15 +202,15 @@ export default function Home() {
           </div>
         </aside>
 
-        <div className="flex-1 overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+        <div className="min-w-0 flex-1 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[0_20px_60px_-30px_rgba(15,23,42,0.25)] dark:border-zinc-800 dark:bg-zinc-900 sm:rounded-[28px] lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
           <div className="p-4 sm:p-6 lg:p-7">
-            <header className="mb-8 flex flex-col gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between">
+            <header className="mb-6 flex flex-col gap-3 border-b border-zinc-200 pb-5 dark:border-zinc-800 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:pb-6">
             <div>
               <div className="mb-2 flex items-center gap-2 text-zinc-400">
                 <Sparkle size={15} weight="fill" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Personal Finance</span>
               </div>
-              <h1 className="text-3xl font-bold tracking-tighter text-zinc-950 dark:text-white sm:text-4xl">
+              <h1 className="text-2xl font-bold tracking-tighter text-zinc-950 dark:text-white sm:text-4xl">
                 {currentTitle}
               </h1>
             </div>
@@ -220,7 +221,7 @@ export default function Home() {
             </div>
           </header>
 
-          <div className="space-y-8">{currentContent}</div>
+          <div className="space-y-6 sm:space-y-8">{currentContent}</div>
 
             <footer className="mt-12 border-t border-zinc-200 pt-8 text-center dark:border-zinc-800">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
